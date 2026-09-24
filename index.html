@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helios Dashboard</title>
+    <meta name="description" content="Dashboard B2B para análise de instalação de painéis solares em tempo real.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Phosphor Icons para icones com design premium -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+
+<body>
+    <!-- Top Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="ph ph-sun-horizon"></i>
+                <span>Projeto Helios</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#hero">Início</a></li>
+                <li><a href="#sobre">O Projeto</a></li>
+                <li><a href="#mvp">Demonstração MVP</a></li>
+                <li><a href="#tecnologias">Tecnologias</a></li>
+                <li><a href="#equipe">A Equipe</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="landing-page">
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section">
+            <div class="hero-content">
+                <span class="badge premium-badge">Projeto Integrador • MVP</span>
+                <h1>Maximizando a Eficiência Solar com Inteligência</h1>
+                <p>O Projeto Helios utiliza um módulo SDR (Sunray Detection System ) e rastreamento em tempo real para encontrar a posição perfeita de instalação para painéis solares, eliminando sombras e erros de cálculo.</p>
+                <a href="#mvp" class="btn-primary hero-btn">Testar o MVP Agora <i class="ph-bold ph-arrow-down"></i></a>
+            </div>
+        </section>
+
+        <!-- Context / Theory Section -->
+        <section id="sobre" class="theory-section container">
+            <div class="section-header">
+                <h2>O Problema e a Solução</h2>
+                <p>Entenda o que motivou a criação do Helios.</p>
+            </div>
+            <div class="theory-grid">
+                <div class="theory-card">
+                    <div class="theory-icon"><i class="ph ph-cloud-warning"></i></div>
+                    <h3>O Problema</h3>
+                    <p>Muitas instalações de painéis solares falham em alcançar o ROI esperado devido a cálculos estáticos imprecisos, obstáculos locais não previstos (árvores, prédios) e sombras sazonais que afetam drasticamente a captação.</p>
+                </div>
+                <div class="theory-card highlight-card">
+                    <div class="theory-icon"><i class="ph ph-lightbulb"></i></div>
+                    <h3>A Solução: Helios</h3>
+                    <p>Um hardware autônomo acoplado à estrutura de orientação que realiza varreduras físicas em dois eixos (Azimute X e Inclinação Y). Ele calcula os ângulos ideais e cruza os dados para provar a inclinação e direção perfeitas antes da instalação definitiva.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MVP Section (Dashboard Wrapper) -->
+        <section id="mvp" class="mvp-section container">
+            <div class="section-header">
+                <h2>Demonstração Prática do MVP</h2>
+                <p>Nesta área você pode simular os dados captados em tempo real pelo módulo SDR.</p>
+            </div>
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Controles de Relatório -->
+                <section class="card reports-control-card" style="grid-column: 1 / -1; padding: 1.5rem;">
+                    <div class="reports-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                        <h3 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--text-primary); margin: 0;"><i class="ph-bold ph-chart-line-up"></i> Gerador de Relatórios Analíticos</h3>
+                    </div>
+                    <div class="reports-filters" style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                        <div class="filter-group" style="flex: 1; min-width: 200px;">
+                            <label style="display: block; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.3rem; font-weight: 600;">Tipo de Relatório</label>
+                            <select id="report-type" class="premium-input" style="width: 100%; padding: 0.6rem;">
+                                <option value="snapshot">1. Snapshot Médio por Horário</option>
+                                <option value="consolidation">2. Consolidação por Período</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label style="display: block; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.3rem; font-weight: 600;">Período (De / Até)</label>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <input type="date" id="report-date-start" class="premium-input" style="padding: 0.6rem;">
+                                <input type="date" id="report-date-end" class="premium-input" style="padding: 0.6rem;">
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label style="display: block; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.3rem; font-weight: 600;">Horário</label>
+                            <input type="time" id="report-time" class="premium-input" style="padding: 0.6rem;" value="08:00">
+                        </div>
+                        <div class="filter-group" style="display: flex; align-items: flex-end; padding-bottom: 2px;">
+                            <button id="btn-generate-report" class="btn-primary" style="padding: 0.7rem 1.5rem; white-space: nowrap;"><i class="ph-bold ph-magic-wand"></i> Gerar Análise</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Container de Resultados (Escondido inicialmente) -->
+                    <div id="report-results-container" style="display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); animation: fadeIn 0.4s ease;">
+                        <div id="report-dynamic-content" style="background: var(--bg-main); border-radius: var(--radius-md); padding: 1.5rem; border: 1px solid var(--primary-light);">
+                            <!-- Injetado via JS -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Veredito (Foco no ROI) -->
+                <section class="card verdict-card">
+                    <div class="card-header">
+                        <h2>Recomendação de Instalação</h2>
+                        <span class="badge premium-badge">ROI Otimizado</span>
+                    </div>
+                    <div class="verdict-content">
+                        <div class="verdict-item">
+                            <span class="verdict-label">Direção Ideal</span>
+                            <span class="verdict-value highlight">182° Sul</span>
+                        </div>
+                        <div class="verdict-item">
+                            <span class="verdict-label">Inclinação Ideal</span>
+                            <span class="verdict-value highlight">23.5°</span>
+                        </div>
+                        <div class="verdict-item">
+                            <span class="verdict-label">Eficiência Máxima</span>
+                            <span class="verdict-value success">98.4%</span>
+                        </div>
+                    </div>
+                    <p class="verdict-description">Posição calculada após varredura do módulo SDR. Baseado no alinhamento ideal dos eixos de orientação nas últimas varreduras.</p>
+                </section>
+
+                <!-- Visão em Tempo Real -->
+                <section class="real-time-section">
+                    <h3 class="section-subtitle">Telemetria em Tempo Real (Módulo SDR) <span id="data-hora" style="font-size: 0.85em; font-weight: normal; color: var(--text-secondary); margin-left: 10px;"></span></h3>
+                    <div class="telemetry-grid">
+                        <div class="telemetry-card">
+                            <div class="telemetry-icon axis-x"><i class="ph ph-arrows-left-right"></i></div>
+                            <div class="telemetry-info">
+                                <span class="telemetry-label">Eixo X (Azimute)</span>
+                                <span class="telemetry-value" id="val-axis-x">180.0 <small>°</small></span>
+                            </div>
+                        </div>
+                        <div class="telemetry-card">
+                            <div class="telemetry-icon axis-y"><i class="ph ph-arrows-up-down"></i></div>
+                            <div class="telemetry-info">
+                                <span class="telemetry-label">Eixo Y (Inclinação)</span>
+                                <span class="telemetry-value" id="val-axis-y">45.0 <small>°</small></span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Visualization Panel (Bússola e Painel) -->
+                <section class="card visualization-card">
+                    <div class="card-header">
+                        <h2>Posição Física do Módulo</h2>
+                    </div>
+
+                    <div class="visualization-controls">
+                        <div class="input-group">
+                            <label for="manual-direction">Direção X (°):</label>
+                            <input type="number" id="manual-direction" min="0" max="360" value="180"
+                                class="premium-input">
+                        </div>
+                        <div class="input-group">
+                            <label for="manual-elevation">Inclinação Y (°):</label>
+                            <input type="number" id="manual-elevation" min="-90" max="90" value="45"
+                                class="premium-input">
+                        </div>
+                        <button id="btn-apply" class="btn-primary">Aplicar Posição</button>
+                    </div>
+
+                    <div class="visual-container">
+                        <!-- Combined Compass and Panel -->
+                        <div class="combined-wrapper">
+                            <div class="compass-rose large-compass">
+                                <div class="compass-mark north">N</div>
+                                <div class="compass-mark east">E</div>
+                                <div class="compass-mark south">S</div>
+                                <div class="compass-mark west">W</div>
+
+                                <div class="scene">
+                                    <!-- Base pointer indicating azimuth direction -->
+                                    <div class="base-direction-pointer" id="base-pointer">
+                                        <div class="pointer-arrow"></div>
+                                    </div>
+                                    <div class="panel-assembly" id="solar-panel">
+                                        <div class="panel-3d-box">
+                                            <!-- Front face (solar cells) -->
+                                            <div class="panel-face front">
+                                                <!-- Direction indicator to show where the panel is pointing -->
+                                                <div class="direction-indicator"></div>
+                                                <div class="grid-lines"></div>
+                                            </div>
+                                            <!-- Other faces for 3D thickness -->
+                                            <div class="panel-face back"></div>
+                                            <div class="panel-face top"></div>
+                                            <div class="panel-face bottom"></div>
+                                            <div class="panel-face left"></div>
+                                            <div class="panel-face right"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-label">Orientação do Módulo SDR</div>
+                            <div class="cardinal-label">
+                                <div>Direção X: <span id="cardinal-text" class="highlight-text">Sul (180°)</span></div>
+                                <div>Inclinação Y: <span id="elevation-text" class="highlight-text">Moderada (45°)</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Módulo de Logs e Histórico de Testes -->
+                <section class="card logs-card">
+                    <div class="card-header">
+                        <h2><i class="ph-bold ph-list-dashes"></i> Módulo de Logs e Histórico de Testes</h2>
+                        <span class="badge location-badge"><i class="ph-fill ph-map-pin"></i> Localização Fixo: UNICID</span>
+                    </div>
+                    <p class="logs-description">Histórico contínuo dos últimos registros e medições de posicionamento captados pelo hardware do módulo SDR.</p>
+                    <div class="table-responsive">
+                        <table class="logs-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Localização</th>
+                                    <th>Data e Horário</th>
+                                    <th>Direção X (Azimute)</th>
+                                    <th>Inclinação Y (Elevação)</th>
+                                    <th>Status Hardware</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logs-table-body">
+                                <!-- Preenchido dinamicamente via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </div>
+        </section>
+
+        <!-- Tecnologias Utilizadas -->
+        <section id="tecnologias" class="tech-section container">
+            <div class="section-header">
+                <h2>Tecnologias Utilizadas</h2>
+                <p>A arquitetura de hardware e software que faz o Helios rodar.</p>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-item"><i class="ph-fill ph-cpu"></i> <span>Arduino / C++</span></div>
+                <div class="tech-item"><i class="ph-fill ph-database"></i> <span>Firebase / IoT</span></div>
+                <div class="tech-item"><i class="ph-fill ph-file-html"></i> <span>HTML5 / Vanilla CSS</span></div>
+                <div class="tech-item"><i class="ph-fill ph-file-js"></i> <span>JavaScript Moderno</span></div>
+                <div class="tech-item"><i class="ph-fill ph-broadcast"></i> <span>Módulo SDR (Sunray Detection System )</span></div>
+            </div>
+        </section>
+
+        <!-- Equipe -->
+        <section id="equipe" class="team-section container">
+            <div class="section-header">
+                <h2>Quem Somos</h2>
+                <p>Os responsáveis por dar vida ao projeto.</p>
+            </div>
+            <div class="team-grid">
+                <!-- Membro 1 -->
+                <div class="team-card">
+                    <div class="team-photo photo-1"></div>
+                    <h3>Renan Carvalho Cavalcante</h3>
+                    <p class="team-course">RGM: 38582147</p>
+                    <p class="team-role">Scrum Master & Fullstack</p>
+                    <div style="margin-top: 1rem; display: flex; gap: 1rem; justify-content: center;">
+                        <a href="https://linkedin.com" target="_blank" style="color: var(--text-secondary); font-size: 1.8rem; transition: color 0.3s;" onmouseover="this.style.color='#0a66c2'" onmouseout="this.style.color='var(--text-secondary)'"><i class="ph-fill ph-linkedin-logo"></i></a>
+                        <a href="https://github.com" target="_blank" style="color: var(--text-secondary); font-size: 1.8rem; transition: color 0.3s;" onmouseover="this.style.color='#111'" onmouseout="this.style.color='var(--text-secondary)'"><i class="ph-fill ph-github-logo"></i></a>
+                    </div>
+                </div>
+                <!-- Membro 2 -->
+                <div class="team-card">
+                    <div class="team-photo photo-2"></div>
+                    <h3>Alison da Silva Araújo</h3>
+                    <p class="team-course">RGM: 37780328</p>
+                    <p class="team-role">Aprensetador </p>
+                    <div style="margin-top: 1rem; display: flex; gap: 1rem; justify-content: center;">
+                        <a href="https://www.linkedin.com/in/alison-silvaa" target="_blank" style="color: var(--text-secondary); font-size: 1.8rem; transition: color 0.3s;" onmouseover="this.style.color='#0a66c2'" onmouseout="this.style.color='var(--text-secondary)'"><i class="ph-fill ph-linkedin-logo"></i></a>
+                        <a href="https://github.com/alisonSilvaa" target="_blank" style="color: var(--text-secondary); font-size: 1.8rem; transition: color 0.3s;" onmouseover="this.style.color='#111'" onmouseout="this.style.color='var(--text-secondary)'"><i class="ph-fill ph-github-logo"></i></a>
+                    </div>
+                </div>
+                <!-- Membro 3 -->
+                <div class="team-card">
+                    <div class="team-photo photo-3"></div>
+                    <h3>Erick de Oliveira Rocha</h3>
+                    <p class="team-course">RGM: 40277704</p>
+                    <p class="team-role"></p>
+                    <div style="margin-top: 1rem; display: flex; gap: 1rem; justify-content: center;">
+                        <a href="https://www.linkedin.com/in/erick-oliveira-11a677209" target="_blank" style="color: var(--text-secondary); font-size: 1.8rem; transition: color 0.3s;" onmouseover="this.style.color='#0a66c2'" onmouseout="this.style.color='var(--text-secondary)'"><i class="ph-fill ph-linkedin-logo"></i></a>
+                        <a href="https://github.com" target="_blank" style="color: var(--text-secondary); font-size: 1.8rem; transition: color 0.3s;" onmouseover="this.style.color='#111'" onmouseout="this.style.color='var(--text-secondary)'"><i class="ph-fill ph-github-logo"></i></a>
+                    </div>
+                </div>
+                <!-- Membro 4 -->
+                <div class="team-card">
+                    <div class="team-photo photo-4"></div>
+                    <h3>Gustavo R. de Almeida Lopes</h3>
+                    <p class="team-course">RGM: 37983008</p>
+                    <p class="team-role">Documentação</p>
+                    <div style="margin-top: 1rem; display: flex; gap: 1rem; justify-content: center;">
+                        <a href="https://www.linkedin.com/in/gustavorobertodealmeidalopes?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" style="color: var(--text-secondary); font-size: 1.8rem; transition: color 0.3s;" onmouseover="this.style.color='#0a66c2'" onmouseout="this.style.color='var(--text-secondary)'"><i class="ph-fill ph-linkedin-logo"></i></a>
+                        <a href="https://github.com/gustavo-almeidalopes" target="_blank" style="color: var(--text-secondary); font-size: 1.8rem; transition: color 0.3s;" onmouseover="this.style.color='#111'" onmouseout="this.style.color='var(--text-secondary)'"><i class="ph-fill ph-github-logo"></i></a>
+                    </div>
+                </div>
+                <!-- Membro 5 -->
+                <div class="team-card">
+                    <div class="team-photo photo-5"></div>
+                    <h3>Kevyn da Silva Alves</h3>
+                    <p class="team-course">RGM: 40450562</p>
+                    <p class="team-role">Design</p>
+                    <div style="margin-top: 1rem; display: flex; gap: 1rem; justify-content: center;">
+                        <a href="https://linkedin.com" target="_blank" style="color: var(--text-secondary); font-size: 1.8rem; transition: color 0.3s;" onmouseover="this.style.color='#0a66c2'" onmouseout="this.style.color='var(--text-secondary)'"><i class="ph-fill ph-linkedin-logo"></i></a>
+                        <a href="https://github.com" target="_blank" style="color: var(--text-secondary); font-size: 1.8rem; transition: color 0.3s;" onmouseover="this.style.color='#111'" onmouseout="this.style.color='var(--text-secondary)'"><i class="ph-fill ph-github-logo"></i></a>
+                    </div>
+                </div>
+                <!-- Membro 6 -->
+                <div class="team-card">
+                    <div class="team-photo photo-6"></div>
+                    <h3>Mayke Feitosa do Nascimento</h3>
+                    <p class="team-course">RGM: 38585618</p>
+                    <p class="team-role">Desenvolvedor C/C++</p>
+                    <div style="margin-top: 1rem; display: flex; gap: 1rem; justify-content: center;">
+                        <a href="https://linkedin.com" target="_blank" style="color: var(--text-secondary); font-size: 1.8rem; transition: color 0.3s;" onmouseover="this.style.color='#0a66c2'" onmouseout="this.style.color='var(--text-secondary)'"><i class="ph-fill ph-linkedin-logo"></i></a>
+                        <a href="https://github.com" target="_blank" style="color: var(--text-secondary); font-size: 1.8rem; transition: color 0.3s;" onmouseover="this.style.color='#111'" onmouseout="this.style.color='var(--text-secondary)'"><i class="ph-fill ph-github-logo"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-info">
+                <div class="logo">
+                    <i class="ph ph-sun-horizon"></i>
+                    <span>Helios</span>
+                </div>
+                <p>&copy; 2026 Projeto Helios. Todos os direitos reservados.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Links Úteis</h4>
+                <a href="#"><i class="ph-fill ph-github-logo"></i> Repositório no GitHub</a>
+                <a href="#"><i class="ph-fill ph-envelope"></i> Contato da Equipe</a>
+            </div>
+            <div class="footer-unicid">
+                <img class="unicid-logo" src="logo-unicid.svg" alt="Logo UNICID">
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
